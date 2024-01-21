@@ -5,6 +5,7 @@ import com.blogapp.techviz.base.ExceptionHandling.ResourceEmptyException;
 import com.blogapp.techviz.base.Pojo.User;
 import com.blogapp.techviz.base.repositories.UserRepo;
 import com.blogapp.techviz.base.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.blogapp.techviz.base.ExceptionHandling.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
@@ -64,24 +67,22 @@ public class UserServiceImpl implements UserService {
         userRepo.delete(aUser);
     }
 
+    /*
+    Use the ModelMapper instance to map your entity objects to DTOs and vice versa. Here’s an example:
+     */
     private User dtoToUser(UserDTO dtoObj){
-        User user = new User();
-        user.setId(dtoObj.getId());
-        user.setName(dtoObj.getName());
-        user.setEmail(dtoObj.getEmail());
-        user.setAbout(dtoObj.getAbout());
-        user.setPassword(dtoObj.getPassword());
+          User user = modelMapper.map(dtoObj, User.class); //map method takes source object and destination object.
+//        User user = new User();
+//        user.setId(dtoObj.getId());
+//        user.setName(dtoObj.getName());
+//        user.setEmail(dtoObj.getEmail());
+//        user.setAbout(dtoObj.getAbout());
+//        user.setPassword(dtoObj.getPassword());
         return user;
     }
 
     private UserDTO userToDTO(User aUser){
-        UserDTO aDTO = new UserDTO();
-        aDTO.setId(aUser.getId());
-        aDTO.setName(aUser.getName());
-        aDTO.setEmail(aUser.getEmail());
-        aDTO.setAbout(aUser.getAbout());
-        aDTO.setPassword(aUser.getPassword());
-
+        UserDTO aDTO = modelMapper.map(aUser, UserDTO.class);
         return aDTO;
     }
 }
