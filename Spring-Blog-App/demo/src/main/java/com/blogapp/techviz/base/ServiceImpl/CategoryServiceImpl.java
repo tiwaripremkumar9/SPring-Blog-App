@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO updateCategory(CategoryDTO categoryDTO, Integer categoryId) {
         Optional<Category> category = categoryRepo.findById(categoryId);
-        Category categoryObj = category.orElse(null);
+        Category categoryObj = category.get();
         if(categoryObj == null)
             throw new ResourceNotFoundException("Category with category id: "+categoryId+" doesn't exist", categoryId);
         categoryObj.setCategoryType(categoryDTO.getCategoryType());
@@ -44,9 +44,13 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO getCategory(Integer categoryId) {
         Optional<Category> categoryObj = categoryRepo.findById(categoryId);
+        /*
+        In Java, get() is a method of the Optional class that returns the actual object type if it is present. If the Optional object is empty, get() throws a NoSuchElementException 1.
+           On the other hand, orElse() is another method of the Optional class that returns the specified default value if the Optional object is empty. Otherwise, it returns the actual object type
+         */
         if(!categoryObj.isPresent())
              throw new ResourceNotFoundException("Category with id: "+categoryId+" not found", categoryId);
-        Category category = categoryObj.orElse(null);
+        Category category = categoryObj.get();
         CategoryDTO categoryDTO = modelMapper.map(category, CategoryDTO.class);
         return categoryDTO;
     }
@@ -56,7 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<Category> categoryObj = categoryRepo.findById(categoryId);
         if(!categoryObj.isPresent())
             throw new ResourceNotFoundException("Category with id: "+categoryId+" not found", categoryId);
-        Category category = categoryObj.orElse(null);
+        Category category = categoryObj.get();
         categoryRepo.delete(category);
     }
 
