@@ -1,5 +1,7 @@
 package com.blogapp.techviz.base.DTO;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +12,10 @@ import lombok.Setter;
 public class CategoryDTO {
 
     private Integer categoryId;
+    @NotEmpty
+    @Size(min = 4, max = 20, message = "size should be between 4 to 20 characters")
     private String categoryType;
-    private String categoryDesc;
+    @NotEmpty
+    @Size(min = 10, max = 200, message = "size should be between 10 to 200 characters")
+    private String categoryDescription;
 }
