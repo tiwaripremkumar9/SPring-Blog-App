@@ -1,6 +1,7 @@
 package com.blogapp.techviz.base.ServiceImpl;
 
 import com.blogapp.techviz.base.DTO.CategoryDTO;
+import com.blogapp.techviz.base.ExceptionHandling.ResourceNotFoundException;
 import com.blogapp.techviz.base.Pojo.Category;
 import com.blogapp.techviz.base.repositories.CategoryRepo;
 import com.blogapp.techviz.base.services.CategoryService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,16 +43,33 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO getCategory(Integer categoryId) {
-        return null;
+        Optional<Category> categoryObj = categoryRepo.findById(categoryId);
+        if(!categoryObj.isPresent())
+            return new ResourceNotFoundException("Category with id: "+categoryId+" not found");
+        Category category = categoryObj.orElse(null);
+        CategoryDTO categoryDTO = modelMapper.map(category, CategoryDTO.class);
+        return categoryDTO;
     }
 
     @Override
     public void deleteCategory(Integer categoryId) {
-
+        Optional<Category> categoryObj = categoryRepo.findById(categoryId);
+        if(!categoryObj.isPresent())
+            return new ResourceNotFoundException("Category with id: "+categoryId+" not found");
+        Category category = categoryObj.orElse(null);
+        categoryRepo.delete(category);
     }
 
     @Override
     public List<CategoryDTO> getAllCategories() {
-        return null;
+        List<Category> categoryList = categoryRepo.findAll();
+        if(categoryList.isEmpty())
+            return new ResourceNotFoundException("Category list is empty");
+        List<CategoryDTO> dtoList = new ArrayList<>();
+        for (Category anObj:
+            categoryList ) {
+            dtoList.add(modelMapper.map(anObj, CategoryDTO.class));
+        }
+        return dtoList;
     }
 }
