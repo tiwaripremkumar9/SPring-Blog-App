@@ -9,4 +9,8 @@ public class ResourceNotFoundException extends RuntimeException{
         super(message);
         this.id = fieldValue;
     }
+
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
 }

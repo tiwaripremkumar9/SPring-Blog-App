@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<Category> category = categoryRepo.findById(categoryId);
         Category categoryObj = category.orElse(null);
         if(categoryObj == null)
-            return new CategoryNotFoundException("Category with category id: "+categoryId+" doesn't exist");
+            throw new ResourceNotFoundException("Category with category id: "+categoryId+" doesn't exist", categoryId);
         categoryObj.setCategoryType(categoryDTO.getCategoryType());
         categoryObj.setCategoryDescription(categoryObj.getCategoryDescription());
         Category updatedCategory = categoryRepo.save(categoryObj);
@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO getCategory(Integer categoryId) {
         Optional<Category> categoryObj = categoryRepo.findById(categoryId);
         if(!categoryObj.isPresent())
-            return new ResourceNotFoundException("Category with id: "+categoryId+" not found");
+             throw new ResourceNotFoundException("Category with id: "+categoryId+" not found", categoryId);
         Category category = categoryObj.orElse(null);
         CategoryDTO categoryDTO = modelMapper.map(category, CategoryDTO.class);
         return categoryDTO;
@@ -55,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
     public void deleteCategory(Integer categoryId) {
         Optional<Category> categoryObj = categoryRepo.findById(categoryId);
         if(!categoryObj.isPresent())
-            return new ResourceNotFoundException("Category with id: "+categoryId+" not found");
+            throw new ResourceNotFoundException("Category with id: "+categoryId+" not found", categoryId);
         Category category = categoryObj.orElse(null);
         categoryRepo.delete(category);
     }
@@ -64,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDTO> getAllCategories() {
         List<Category> categoryList = categoryRepo.findAll();
         if(categoryList.isEmpty())
-            return new ResourceNotFoundException("Category list is empty");
+            throw new ResourceNotFoundException("Category list is empty");
         List<CategoryDTO> dtoList = new ArrayList<>();
         for (Category anObj:
             categoryList ) {
