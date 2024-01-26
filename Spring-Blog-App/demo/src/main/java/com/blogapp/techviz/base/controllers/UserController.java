@@ -2,6 +2,7 @@ package com.blogapp.techviz.base.controllers;
 
 import com.blogapp.techviz.base.DTO.UserDTO;
 import com.blogapp.techviz.base.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class UserController {
     //PUT a User
     //POST a User
     @PostMapping("/create")
-    public ResponseEntity<UserDTO> createAUser(@RequestBody UserDTO aUserdto){
+    public ResponseEntity<UserDTO> createAUser(@Valid @RequestBody UserDTO aUserdto){
         UserDTO newUserDTO = userService.createUser(aUserdto);
         return new ResponseEntity<>(newUserDTO, HttpStatus.CREATED);
     }
