@@ -1,6 +1,7 @@
 package com.blogapp.techviz.base.Pojo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
+    @Size(max = 50000, min = 100)
     private String content;
     private String imageName;
 

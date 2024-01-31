@@ -23,6 +23,19 @@ public class User {
     private String name;
     private String email;
     private String password;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", about='" + about + '\'' +
+                ", posts=" + posts +
+                '}';
+    }
+
     private String about;
     //a user can have multiple posts
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

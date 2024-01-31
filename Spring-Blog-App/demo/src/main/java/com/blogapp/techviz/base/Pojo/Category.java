@@ -23,17 +23,27 @@ public class Category {
     @Column(name = "catg_desc", length = 200)
     private String categoryDescription;
 
+    @Override
+    public String toString() {
+        return "Category{" +
+                "categoryId=" + categoryId +
+                ", categoryType='" + categoryType + '\'' +
+                ", categoryDescription='" + categoryDescription + '\'' +
+                ", posts=" + posts +
+                '}';
+    }
+
     /*
-    In the Category entity, use the @OneToMany annotation to define the relationship with the Post entity.
-    The mappedBy attribute specifies the field in the Post entity that maps to the Category entity.
+        In the Category entity, use the @OneToMany annotation to define the relationship with the Post entity.
+        The mappedBy attribute specifies the field in the Post entity that maps to the Category entity.
 
-    The cascade = CascadeType.ALL attribute is used to specify that all operations (including Hibernate-specific ones) should be cascaded from a parent entity to a child entity.
-    In the context of the Category and Post entities, if we use CascadeType.ALL for the posts field in the Category entity,
-    then all operations performed on the Category entity (such as persist, merge, remove, refresh, and detach) will be automatically propagated to all associated Post entities.
-    For example, if we delete a Category entity that has associated Post entities,
-    then all the associated Post entities will also be deleted automatically. This can help simplify our code and reduce the amount of boilerplate code required to manage the relationships between entities.
+        The cascade = CascadeType.ALL attribute is used to specify that all operations (including Hibernate-specific ones) should be cascaded from a parent entity to a child entity.
+        In the context of the Category and Post entities, if we use CascadeType.ALL for the posts field in the Category entity,
+        then all operations performed on the Category entity (such as persist, merge, remove, refresh, and detach) will be automatically propagated to all associated Post entities.
+        For example, if we delete a Category entity that has associated Post entities,
+        then all the associated Post entities will also be deleted automatically. This can help simplify our code and reduce the amount of boilerplate code required to manage the relationships between entities.
 
-     */
+         */
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Post> posts;
 }
