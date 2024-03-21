@@ -23,5 +23,4 @@ public class PostController {
         System.out.println("Inside POstController: "+postDto.toString());
         return new ResponseEntity<>(postDTO, HttpStatus.CREATED);
     }
-
 }

@@ -1,6 +1,7 @@
 package com.blogapp.techviz.base.ServiceImpl;
 
 import com.blogapp.techviz.base.DTO.PostDTO;
+import com.blogapp.techviz.base.ExceptionHandling.ResourceNotFoundException;
 import com.blogapp.techviz.base.Pojo.Category;
 import com.blogapp.techviz.base.Pojo.Post;
 import com.blogapp.techviz.base.Pojo.User;
@@ -54,7 +55,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getPostsByCategory() {
+    public List<Post> getPostsByCategory(Integer categoryId) {
+        Category catg = categoryRepo.findById(categoryId).get();
+        if(catg == null)
+            throw new ResourceNotFoundException("Category with id: "+categoryId+" not found");
+        postRepo.findByCategory();
         return null;
     }
 
