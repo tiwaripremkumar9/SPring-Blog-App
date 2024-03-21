@@ -23,4 +23,15 @@ public class PostController {
         System.out.println("Inside POstController: "+postDto.toString());
         return new ResponseEntity<>(postDTO, HttpStatus.CREATED);
     }
+
+    @GetMapping("/user/{categoryId}/posts")
+    public ResponseEntity<List<PostDTO>> getPostByCategory(@PathVariable Integer categoryId){
+        List<PostDTO> postsByCategory = postService.getPostsByCategory(categoryId);
+        return new ResponseEntity<>(postsByCategory, HttpStatus.FOUND);
+    }
+
+    public ResponseEntity<List<PostDTO>> getPostByUser(@PathVariable Integer userId){
+        List<PostDTO> postsByUser = postService.getPostByUser(userId);
+        return new ResponseEntity<>(postsByUser, HttpStatus.FOUND);
+    }
 }

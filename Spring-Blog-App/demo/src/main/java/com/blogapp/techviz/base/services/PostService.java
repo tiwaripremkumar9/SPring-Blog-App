@@ -15,7 +15,7 @@ public interface PostService {
 
     List<Post> getAllPost();
 
-    List<Post> getPostsByCategory(Integer catgId);
+    List<PostDTO> getPostsByCategory(Integer catgId);
 
-    List<Post> getPostByUser();
+    List<PostDTO> getPostByUser(Integer userId);
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -51,4 +52,18 @@ public class GlobalExceptionHandler {
         resp.setTimeStamp(System.currentTimeMillis());
         return new ResponseEntity<>(resp, HttpStatus.NOT_FOUND);
     }
+
+    /*
+    Error response to handle no such element exception
+     */
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleNoSuchElementException(NoSuchElementException ex){
+        ErrorResponse resp = new ErrorResponse();
+        resp.setMessage(ex.getMessage());
+        resp.setStatus(HttpStatus.NOT_FOUND.value());
+        resp.setTimeStamp(System.currentTimeMillis());
+        return new ResponseEntity<>(resp, HttpStatus.NOT_FOUND);
+    }
+
+
 }

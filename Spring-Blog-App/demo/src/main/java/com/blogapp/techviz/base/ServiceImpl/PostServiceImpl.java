@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -55,16 +56,31 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getPostsByCategory(Integer categoryId) {
+    public List<PostDTO> getPostsByCategory(Integer categoryId) {
         Category catg = categoryRepo.findById(categoryId).get();
         if(catg == null)
             throw new ResourceNotFoundException("Category with id: "+categoryId+" not found");
-        postRepo.findByCategory();
-        return null;
+         List<Post> posts = postRepo.findByCategory(catg);
+         List<PostDTO> postDtos = new ArrayList<>();
+        for (Post each: posts) {
+            postDtos.add(modelMapper.map(each, PostDTO.class));
+        }
+        return postDtos;
     }
 
+    /*
+    get posts by user
+     */
     @Override
-    public List<Post> getPostByUser() {
-        return null;
+    public List<PostDTO> getPostByUser(Integer userId) {
+        User user = userRepo.findById(userId).get();
+        if(user == null)
+            throw new ResourceNotFoundException("User with id: "+userId+" not found");
+        List<Post> posts = postRepo.findByUser(user); //NOTE: we are using findByUser here, not find by id
+        List<PostDTO> postDtos = new ArrayList<>();
+        for (Post each: posts) {
+            postDtos.add(modelMapper.map(each, PostDTO.class));
+        }
+        return postDtos;
     }
 }
