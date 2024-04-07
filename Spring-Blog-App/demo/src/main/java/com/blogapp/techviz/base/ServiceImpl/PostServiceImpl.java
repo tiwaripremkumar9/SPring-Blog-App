@@ -1,5 +1,6 @@
 package com.blogapp.techviz.base.ServiceImpl;
 
+import com.blogapp.techviz.base.DTO.CategoryDTO;
 import com.blogapp.techviz.base.DTO.PostDTO;
 import com.blogapp.techviz.base.ExceptionHandling.ResourceNotFoundException;
 import com.blogapp.techviz.base.Pojo.Category;
@@ -42,17 +43,33 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO updatePost(PostDTO postDTO, Integer postId) {
-        return null;
+        Post aPost = postRepo.findById(postId).get();
+        Category category = aPost.getCategory();
+        aPost.setCategory(category);
+        aPost.setTitle(aPost.getTitle());
+        aPost.setContent(aPost.getContent());
+        List<PostDTO> postDtos = new ArrayList<>();
+
+        Post savedPost = postRepo.save(aPost);
+
+        PostDTO savedPostDTO = modelMapper.map(savedPost, PostDTO.class);
+        return savedPostDTO;
     }
 
     @Override
     public void deletePost(Integer postId) {
-
+        Post aPost = postRepo.findById(postId).get();
+        postRepo.delete(aPost);
     }
 
     @Override
-    public List<Post> getAllPost() {
-        return null;
+    public List<PostDTO> getAllPost() {
+        List<Post> allPosts = postRepo.findAll();
+        List<PostDTO> postDtos = new ArrayList<>();
+        for (Post each: allPosts) {
+            postDtos.add(modelMapper.map(each, PostDTO.class));
+        }
+        return postDtos;
     }
 
     @Override

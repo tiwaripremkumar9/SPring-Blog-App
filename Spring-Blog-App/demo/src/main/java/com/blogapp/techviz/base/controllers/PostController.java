@@ -1,6 +1,7 @@
 package com.blogapp.techviz.base.controllers;
 
 import com.blogapp.techviz.base.DTO.PostDTO;
+import com.blogapp.techviz.base.Response.DeleteResponse;
 import com.blogapp.techviz.base.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,5 +35,26 @@ public class PostController {
     public ResponseEntity<List<PostDTO>> getPostByUser(@PathVariable Integer userId){
         List<PostDTO> postsByUser = postService.getPostByUser(userId);
         return new ResponseEntity<>(postsByUser, HttpStatus.FOUND);
+    }
+
+    @RequestMapping("/")
+    public ResponseEntity<List<PostDTO>> getAllPost(){
+        List<PostDTO> posts = postService.getAllPost();
+        return new ResponseEntity<>(posts, HttpStatus.FOUND);
+    }
+
+    @RequestMapping("/update/{postId}")
+    public ResponseEntity<PostDTO> updatePost(@RequestBody PostDTO postDTO, @PathVariable Integer postId){
+        PostDTO aDTO = postService.updatePost(postDTO, postId);
+        return new ResponseEntity<>(aDTO, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/delete/{postId}")
+    public ResponseEntity<DeleteResponse> deletePost(@PathVariable Integer postId){
+        postService.deletePost(postId);
+        DeleteResponse delResp = new DeleteResponse();
+        delResp.setMessage("Deleted Post with Id: "+postId);
+        delResp.setTimestamp(System.currentTimeMillis());
+        return new ResponseEntity<>(delResp, HttpStatus.OK);
     }
 }
