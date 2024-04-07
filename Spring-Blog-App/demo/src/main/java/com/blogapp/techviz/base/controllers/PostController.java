@@ -43,6 +43,21 @@ public class PostController {
         return new ResponseEntity<>(posts, HttpStatus.FOUND);
     }
 
+    /*
+    by default shows 4 entries for a single page if no value passed.
+    page number and page size value can be passed as below
+    http://localhost:8080/api/post/posts/pageination?pageNumber=2&pageSize=3
+     */
+
+    @GetMapping("/posts/pageination")
+    public ResponseEntity<List<PostDTO>> getAllPostsByPaginations(
+            @RequestParam(value = "pageNumber", defaultValue = "1", required = false) Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "4", required = false)  Integer pageSize) {
+
+        List<PostDTO> posts = postService.getAllPostByPagination(pageSize, pageNum);
+        return new ResponseEntity<>(posts, HttpStatus.FOUND);
+    }
+
     @RequestMapping("/update/{postId}")
     public ResponseEntity<PostDTO> updatePost(@RequestBody PostDTO postDTO, @PathVariable Integer postId){
         PostDTO aDTO = postService.updatePost(postDTO, postId);

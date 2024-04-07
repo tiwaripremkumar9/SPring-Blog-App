@@ -18,4 +18,6 @@ public interface PostService {
     List<PostDTO> getPostsByCategory(Integer catgId);
 
     List<PostDTO> getPostByUser(Integer userId);
+
+    List<PostDTO> getAllPostByPagination(Integer pageSize, Integer pageNumber);
 }

@@ -12,6 +12,9 @@ import com.blogapp.techviz.base.repositories.UserRepo;
 import com.blogapp.techviz.base.services.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -67,6 +70,17 @@ public class PostServiceImpl implements PostService {
         List<Post> allPosts = postRepo.findAll();
         List<PostDTO> postDtos = new ArrayList<>();
         for (Post each: allPosts) {
+            postDtos.add(modelMapper.map(each, PostDTO.class));
+        }
+        return postDtos;
+    }
+
+    public List<PostDTO> getAllPostByPagination(Integer pageSize, Integer pageNumber) {
+        Pageable pageableObj = PageRequest.of(pageNumber, pageSize);
+        Page<Post> pageObj = postRepo.findAll(pageableObj);
+        List<Post> posList = pageObj.getContent();
+        List<PostDTO> postDtos = new ArrayList<>();
+        for (Post each: posList) {
             postDtos.add(modelMapper.map(each, PostDTO.class));
         }
         return postDtos;
