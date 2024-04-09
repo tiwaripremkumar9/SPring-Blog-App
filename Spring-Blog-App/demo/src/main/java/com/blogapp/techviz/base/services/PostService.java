@@ -2,6 +2,7 @@ package com.blogapp.techviz.base.services;
 
 import com.blogapp.techviz.base.DTO.PostDTO;
 import com.blogapp.techviz.base.Pojo.Post;
+import com.blogapp.techviz.base.Response.PostResponse;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.util.List;
@@ -19,5 +20,8 @@ public interface PostService {
 
     List<PostDTO> getPostByUser(Integer userId);
 
-    List<PostDTO> getAllPostByPagination(Integer pageSize, Integer pageNumber);
+    //List<PostDTO> getAllPostByPagination(Integer pageSize, Integer pageNumber);
+
+    PostResponse getAllPostByPagination(Integer pageSize, Integer pageNumber);
+
 }

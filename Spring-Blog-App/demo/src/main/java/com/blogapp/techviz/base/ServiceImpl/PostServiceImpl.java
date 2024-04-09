@@ -6,6 +6,7 @@ import com.blogapp.techviz.base.ExceptionHandling.ResourceNotFoundException;
 import com.blogapp.techviz.base.Pojo.Category;
 import com.blogapp.techviz.base.Pojo.Post;
 import com.blogapp.techviz.base.Pojo.User;
+import com.blogapp.techviz.base.Response.PostResponse;
 import com.blogapp.techviz.base.repositories.CategoryRepo;
 import com.blogapp.techviz.base.repositories.PostRepo;
 import com.blogapp.techviz.base.repositories.UserRepo;
@@ -75,7 +76,7 @@ public class PostServiceImpl implements PostService {
         return postDtos;
     }
 
-    public List<PostDTO> getAllPostByPagination(Integer pageSize, Integer pageNumber) {
+    public PostResponse getAllPostByPagination(Integer pageSize, Integer pageNumber) {
         Pageable pageableObj = PageRequest.of(pageNumber, pageSize);
         Page<Post> pageObj = postRepo.findAll(pageableObj);
         List<Post> posList = pageObj.getContent();
@@ -83,7 +84,15 @@ public class PostServiceImpl implements PostService {
         for (Post each: posList) {
             postDtos.add(modelMapper.map(each, PostDTO.class));
         }
-        return postDtos;
+
+        PostResponse postResponse = new PostResponse();
+        postResponse.setContent(postDtos);
+        postResponse.setPageNumber(pageObj.getNumber());
+        postResponse.setPageSize(pageObj.getSize());
+        postResponse.setTotalElements(pageObj.getTotalElements());
+        postResponse.setTotalPages(pageObj.getTotalPages());
+        postResponse.setLastPage(pageObj.isLast());
+        return postResponse;
     }
 
     @Override

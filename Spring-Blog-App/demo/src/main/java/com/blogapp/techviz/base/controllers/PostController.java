@@ -2,6 +2,7 @@ package com.blogapp.techviz.base.controllers;
 
 import com.blogapp.techviz.base.DTO.PostDTO;
 import com.blogapp.techviz.base.Response.DeleteResponse;
+import com.blogapp.techviz.base.Response.PostResponse;
 import com.blogapp.techviz.base.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,13 +50,22 @@ public class PostController {
     http://localhost:8080/api/post/posts/pageination?pageNumber=2&pageSize=3
      */
 
+//    @GetMapping("/posts/pageination")
+//    public ResponseEntity<List<PostDTO>> getAllPostsByPaginations(
+//            @RequestParam(value = "pageNumber", defaultValue = "1", required = false) Integer pageNum,
+//            @RequestParam(value = "pageSize", defaultValue = "4", required = false)  Integer pageSize) {
+//
+//        List<PostDTO> posts = postService.getAllPostByPagination(pageSize, pageNum);
+//        return new ResponseEntity<>(posts, HttpStatus.FOUND);
+//    }
+
     @GetMapping("/posts/pageination")
-    public ResponseEntity<List<PostDTO>> getAllPostsByPaginations(
+    public ResponseEntity<PostResponse> getAllPostsByPaginations(
             @RequestParam(value = "pageNumber", defaultValue = "1", required = false) Integer pageNum,
             @RequestParam(value = "pageSize", defaultValue = "4", required = false)  Integer pageSize) {
 
-        List<PostDTO> posts = postService.getAllPostByPagination(pageSize, pageNum);
-        return new ResponseEntity<>(posts, HttpStatus.FOUND);
+        PostResponse posts = postService.getAllPostByPagination(pageSize, pageNum);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
     @RequestMapping("/update/{postId}")
