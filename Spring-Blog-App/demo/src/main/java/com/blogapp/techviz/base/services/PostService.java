@@ -22,6 +22,6 @@ public interface PostService {
 
     //List<PostDTO> getAllPostByPagination(Integer pageSize, Integer pageNumber);
 
-    PostResponse getAllPostByPagination(Integer pageSize, Integer pageNumber);
+    PostResponse getAllPostByPagination(Integer pageSize, Integer pageNumber, String sortBy);
 
 }
